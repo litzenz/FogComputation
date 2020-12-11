@@ -1,0 +1,45 @@
+how to make a rasberry pi a cluster computer /instructables.com
+https://www.instructables.com/id/How-to-Make-a-Raspberry-Pi-SuperComputer/
+
+Rasberry Pi (image-initializing)
+tightvnc in Ubuntu
+
+MPICH (Message Passing Interface): download and install MPICH
+	wget http://www.mpich.org/static/downloads/3.3.1/mpich-3.3.1.tar.gz
+	tar xfz mpich-3.3.1.tar.gz
+	mkdir /home/litzen/mpi-install
+	sudo /home/litzen/mpich/mpich-3.3.1/configure -prefix=/home/litzen/mpi-install -disable-fortran
+	sudo make
+	sudo make install
+
+	on windows: 
+	https://www.microsoft.com/en-us/download/confirmation.aspx?id=54607
+	PATH=%PATH%;C:\Program Files\Microsoft MPI\bin
+
+mpi4py: pythonprogramming.net (download and install)
+from source:
+	wget https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-3.0.2.tar.gz
+	tar xfz mpi4py-3.0.2.tar.gz
+	cd mpi4py-3.0.2
+	python setup.py build
+	python setup.py install
+or pip:
+	sudo apt install libopenmpi-dev
+	pip install mpi4py	
+
+mpitutorial.com: broadcasting/scatter/gather
+	MPI.COMM_WORLD.GET_size(）
+	MPI.COMM_WORLD.Get_rank()
+	MPI.Get_processor_name()
+
+
+ssh pi@10.42.0.242/10.42.0.143/10.42.0.57/10.42.0.224
+sudo nano machinefile: list IP address (ID of the cluster)
+mpiexec -f machinefile -n (number) pythone filename
+mpiexec -f machinefile -n hostname
+
+in cluster computing :
+1-	we split the dataset to different sets (according to the number of workers)
+2-	each worker processes its own dataset and produces the result
+3-	each worker sends the result back to the master node
+4-	master node integrate the results and provides a final result
